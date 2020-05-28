@@ -1,1 +1,0 @@
-int* getPureLiterals(e3CNF e, int* sizeOfArray);
