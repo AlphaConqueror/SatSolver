@@ -1,8 +1,7 @@
-//
-// Created by prog2 on 27.05.20.
-//
+#define SAT 10
+#define UNSAT 20
+#define UNKNOWN -1
 
-#ifndef PROJECT2_SATSOLVER_H
-#define PROJECT2_SATSOLVER_H
+int n, m;
 
-#endif //PROJECT2_SATSOLVER_H
+int solveSat(formula_t* formula, char* path);

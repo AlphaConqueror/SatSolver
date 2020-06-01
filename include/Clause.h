@@ -8,5 +8,9 @@ struct clause_t {
 clause_t* createClause();
 clause_t* getLastClause(clause_t* root);
 void addClauseNext(clause_t* root, clause_t* next);
-int isEmptyClause(clause_t* root);
+int containsEmptyClause(clause_t* root);
 void freeClause(clause_t* clause);
+
+int isUndefined(clause_t* clause, int* values);
+int isUnitClause(clause_t* root, int* values);
+int checkClause(clause_t* root, int* values);

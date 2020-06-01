@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "Clause.h"
 #include "Literal.h"
+#include "Formula.h"
 #include "IOManager.h"
+#include "SatSolver.h"
 
 int main(int argc, char *argv[]) {
-    // todo: implement a SatSolver
-    int n, m;
     clause_t* input = readClauseInput(argv[1], &n, &m);
 
-    if(argc == 4 && strcmp(argv[3], "-p") == 0) {
+    if(argc == 3) {
+        formula_t* formula = createFormula(input);
+        int isSolved = solveSat(formula, argv[2]);
+
+        printf("Is Solved? %d\n", isSolved);
+
+        freeFormula(formula);
+
+        return isSolved;
+    } else if(argc == 4 && strcmp(argv[3], "-p") == 0) {
         literal_t* literals = getPureLiterals(input);
 
         printLiteral(literals, argv[2]);
@@ -19,7 +27,6 @@ int main(int argc, char *argv[]) {
     }
 
     printClause(input);
-
     freeClause(input);
 
     return 0;

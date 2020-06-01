@@ -3,6 +3,8 @@
 #include <string.h>
 #include "Clause.h"
 #include "Literal.h"
+#include "Formula.h"
+#include "SatSolver.h"
 
 clause_t* readClauseInput(char* path, int* n, int* m) {
     FILE* file;
@@ -73,11 +75,26 @@ void printLiteral(literal_t* root, char* path) {
     FILE* file = fopen(path, "w");
 
     while(iterator != NULL) {
+        fprintf(stderr, "%d ", iterator->index);
         fprintf(file, "%d ", iterator->index);
 
         iterator = iterator->next;
     }
 
+    fprintf(stderr, "0\n");
     fprintf(file, "0\n");
     fclose(file);
+}
+
+void printSolution(int* values, char* path) {
+    FILE* file = fopen(path, "w");
+    printf("Solution: \n");
+
+    for(int i = 0; i < n; i++) {
+        printf("%s%d ", values[i] == FALSE ? "-" : "", i+1);
+        fprintf(file, "%s%d ", values[i] == FALSE ? "-" : "", i+1);
+    }
+
+    printf("\n");
+    fprintf(file, "\n");
 }

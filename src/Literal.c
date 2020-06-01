@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "Clause.h"
 #include "Literal.h"
+#include "SatSolver.h"
+#include "IOManager.h"
 
 literal_t* createLiteral() {
     literal_t* literal = malloc(sizeof(literal_t));
@@ -59,6 +61,30 @@ void freeLiteral(literal_t* literal) {
     }
 }
 
+int getValue(literal_t* literal, int* values) {
+    int value = values[abs(literal->index) - 1];
+
+    if(value == UNDEFINED)
+        return UNDEFINED;
+
+    return literal->index < 0 ? !value : value;
+}
+
+int checkLiteral(literal_t* root, int* values) {
+    literal_t* iterator = root;
+
+    while(iterator != NULL) {
+        int value = getValue(iterator, values);
+
+        if(value == TRUE)
+            return TRUE;
+
+        iterator = iterator->next;
+    }
+
+    return FALSE;
+}
+
 literal_t* getLiterals(clause_t* root) {
     literal_t* literal = createLiteral();
     clause_t* clauseIterator = root;
@@ -110,5 +136,11 @@ literal_t* getPureLiterals(clause_t* root) {
     freeLiteral(literals);
 
     return pureLiterals;
+}
+
+void cloneValues(int* values, int* initValues) {
+    for(int i = 0; i < n; i++) {
+        values[i] = initValues[i];
+    }
 }
 
