@@ -109,6 +109,7 @@ void printValues(int* values) {
 void printSolution(int* values, char* path) {
     FILE* file = fopen(path, "w");
 
+    fprintf(file, "SAT\n");
     printValues(values);
     printf("----------------\n");
     printf("SOLUTION: \n");
@@ -120,5 +121,12 @@ void printSolution(int* values, char* path) {
 
     printf("\n----------------\n");
     fprintf(file, "\n");
+    fclose(file);
+}
+
+void printFailure(char* path) {
+    FILE* file = fopen(path, "w");
+
+    fprintf(file, "UNSAT\n");
     fclose(file);
 }

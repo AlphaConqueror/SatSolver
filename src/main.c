@@ -16,7 +16,8 @@ int main(int argc, char *argv[]) {
         formula_t* formula = createFormula(input);
         int isSolved = solveSat(formula, argv[2]);
 
-        printf("SAT Solved? %s\n", isSolved == SAT ? "Yes" : "No");
+        if(isSolved == UNSAT)
+            printFailure(argv[2]);
 
         freeClause(input);
 
