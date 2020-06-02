@@ -3,4 +3,4 @@
 
 int n, m;
 
-int solveSat(formula_t* formula, char* path);
+int solveSat(struct formula_t* formula, char* path);

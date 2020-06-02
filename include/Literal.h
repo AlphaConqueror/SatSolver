@@ -18,6 +18,6 @@ void freeLiteral(literal_t* literal);
 
 int getValue(literal_t* literal, int* values);
 int checkLiteral(literal_t* root, int* values);
-literal_t* getLiterals(clause_t* root);
-literal_t* getPureLiterals(clause_t* root);
+literal_t* getLiterals(struct clause_t* root);
+literal_t* getPureLiterals(struct clause_t* root);
 void cloneValues(int* values, int* initValues);
