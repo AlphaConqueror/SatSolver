@@ -110,16 +110,14 @@ void printSolution(int* values, char* path) {
     FILE* file = fopen(path, "w");
 
     fprintf(file, "SAT\n");
-    printValues(values);
-    printf("----------------\n");
-    printf("SOLUTION: \n");
 
     for(int i = 0; i < n; i++) {
-        printf("%s%d ", values[i] == FALSE ? "-" : "", i+1);
-        fprintf(file, "%s%d ", values[i] == FALSE ? "-" : "", i+1);
+        fprintf(file, "%s%d", values[i] == FALSE ? "-" : "", i+1);
+
+        if(i < n - 1)
+            fprintf(file, " ");
     }
 
-    printf("\n----------------\n");
     fprintf(file, "\n");
     fclose(file);
 }
