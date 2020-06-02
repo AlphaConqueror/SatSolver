@@ -59,15 +59,26 @@ void printClause(clause_t* root) {
     while(clauseIterator != NULL) {
         literal_t* literalIterator = clauseIterator->head;
 
+        printf("(");
+
         while(literalIterator != NULL) {
-            printf("%d ", literalIterator->index);
+            if(literalIterator->next != NULL)
+                printf("%d |", literalIterator->index);
+            else
+                printf("%d", literalIterator->index);
 
             literalIterator = literalIterator->next;
         }
 
-        printf("0\n");
+        if(clauseIterator->next != NULL)
+            printf(") & ");
+        else
+            printf(")");
+
         clauseIterator = clauseIterator->next;
     }
+
+    printf("\n");
 }
 
 void printLiteral(literal_t* root, char* path) {
@@ -86,15 +97,28 @@ void printLiteral(literal_t* root, char* path) {
     fclose(file);
 }
 
+void printValues(int* values) {
+    printf("Values: ");
+
+    for(int i = 0; i < n; i++)
+        printf("%d ", values[i]);
+
+    printf("\n");
+}
+
 void printSolution(int* values, char* path) {
     FILE* file = fopen(path, "w");
-    printf("Solution: \n");
+
+    printValues(values);
+    printf("----------------\n");
+    printf("SOLUTION: \n");
 
     for(int i = 0; i < n; i++) {
         printf("%s%d ", values[i] == FALSE ? "-" : "", i+1);
         fprintf(file, "%s%d ", values[i] == FALSE ? "-" : "", i+1);
     }
 
-    printf("\n");
+    printf("\n----------------\n");
     fprintf(file, "\n");
+    fclose(file);
 }

@@ -9,6 +9,7 @@ clause_t* createClause();
 clause_t* getLastClause(clause_t* root);
 void addClauseNext(clause_t* root, clause_t* next);
 int containsEmptyClause(clause_t* root);
+clause_t* cloneClause(clause_t* clause);
 void freeClause(clause_t* clause);
 
 int isUndefined(clause_t* clause, int* values);

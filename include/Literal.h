@@ -13,6 +13,7 @@ literal_t* createLiteral();
 literal_t* getLastLiteral(literal_t* root);
 void addLiteralNext(literal_t* root, literal_t* next);
 int containsIndex(literal_t* root, int index);
+literal_t* cloneLiteral(literal_t* literal);
 void freeLiteral(literal_t* literal);
 
 int getValue(literal_t* literal, int* values);

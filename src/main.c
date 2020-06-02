@@ -10,13 +10,15 @@
 int main(int argc, char *argv[]) {
     clause_t* input = readClauseInput(argv[1], &n, &m);
 
+    printClause(input);
+
     if(argc == 3) {
         formula_t* formula = createFormula(input);
         int isSolved = solveSat(formula, argv[2]);
 
-        printf("Is Solved? %d\n", isSolved);
+        printf("SAT Solved? %s\n", isSolved == SAT ? "Yes" : "No");
 
-        freeFormula(formula);
+        freeClause(input);
 
         return isSolved;
     } else if(argc == 4 && strcmp(argv[3], "-p") == 0) {
@@ -26,7 +28,6 @@ int main(int argc, char *argv[]) {
         freeLiteral(literals);
     }
 
-    printClause(input);
     freeClause(input);
 
     return 0;

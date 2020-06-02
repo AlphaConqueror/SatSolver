@@ -46,8 +46,6 @@ void freeFormula(formula_t* formula) {
     if(formula != NULL) {
         if(formula->next != NULL)
             freeFormula(formula->next);
-        if(formula->clause != NULL)
-            freeClause(formula->clause);
         if(formula->values != NULL)
             free(formula->values);
         free(formula);
