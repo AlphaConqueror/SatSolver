@@ -7,7 +7,7 @@
 #include "IOManager.h"
 #include "SatSolver.h"
 
-int solveSat(formula_t* formula, char* path) {
+int solveSat(formula_t* formula, char* path, int ple) {
     int isSolved = checkClause(formula->clause, formula->values);
 
     if (isSolved == TRUE) {
@@ -34,26 +34,45 @@ int solveSat(formula_t* formula, char* path) {
 
             freeFormula(formula);
 
-            return solveSat(newFormula, path);
-        } else {
-            formula_t* newFormulaPos = createFormula(formula->clause);
+            return solveSat(newFormula, path, ple);
+        }
 
-            cloneValues(newFormulaPos->values, formula->values);
-            newFormulaPos->values[abs(undefinedIndex) - 1] = TRUE;
+        if(ple == 1) {
+            literal_t* pureLiterals = getPureLiterals(formula->clause);
 
-            if(solveSat(newFormulaPos, path) != SAT) {
-                formula_t* newFormulaNeg = createFormula(formula->clause);
+            int index = pureLiterals->index;
 
-                cloneValues(newFormulaNeg->values, formula->values);
-                newFormulaNeg->values[abs(undefinedIndex) - 1] = FALSE;
+            freeLiteral(pureLiterals);
+
+            if(index != 0) {
+                formula_t* newFormula = createFormula(formula->clause);
+
+                cloneValues(newFormula->values, formula->values);
+                newFormula->values[abs(index) - 1] = index < 0 ? FALSE : TRUE;
 
                 freeFormula(formula);
 
-                return solveSat(newFormulaNeg, path);
-            } else {
-                freeFormula(formula);
-                return SAT;
+                return solveSat(newFormula, path, ple);
             }
+        }
+
+        formula_t* newFormulaPos = createFormula(formula->clause);
+
+        cloneValues(newFormulaPos->values, formula->values);
+        newFormulaPos->values[abs(undefinedIndex) - 1] = undefinedIndex < 0 ? FALSE : TRUE;
+
+        if(solveSat(newFormulaPos, path, ple) != SAT) {
+            formula_t* newFormulaNeg = createFormula(formula->clause);
+
+            cloneValues(newFormulaNeg->values, formula->values);
+            newFormulaNeg->values[abs(undefinedIndex) - 1] = undefinedIndex < 0 ? TRUE : FALSE;
+
+            freeFormula(formula);
+
+            return solveSat(newFormulaNeg, path, ple);
+        } else {
+            freeFormula(formula);
+            return SAT;
         }
     }
 

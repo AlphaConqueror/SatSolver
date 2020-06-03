@@ -63,7 +63,7 @@ clause_t* readClauseInput(char* path, int* n, int* m) {
 
         while(literalIterator != NULL) {
             if(literalIterator->next != NULL)
-                printf("%d |", literalIterator->index);
+                printf("%d | ", literalIterator->index);
             else
                 printf("%d", literalIterator->index);
 
