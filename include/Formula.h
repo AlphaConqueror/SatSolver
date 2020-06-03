@@ -7,7 +7,6 @@ struct formula_t {
 };
 
 formula_t* createFormula(struct clause_t* clause);
-int getFormulaSize(formula_t* root);
 formula_t* getLastFormula(formula_t* root);
 void freeFormula(formula_t* formula);
 

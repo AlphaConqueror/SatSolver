@@ -10,21 +10,14 @@
 int solveSat(formula_t* formula, char* path) {
     int isSolved = checkClause(formula->clause, formula->values);
 
-    printf("Is solved? %d\n", isSolved);
-
-    printValues(formula->values);
-
     if (isSolved == TRUE) {
         printSolution(formula->values, path);
 
         freeFormula(formula);
-        printf("RETURNING %d\n", SAT);
         return SAT;
     }
 
     int undefinedIndex = isUndefined(formula->clause, formula->values);
-
-    printf("Undefined index = %d\n", undefinedIndex);
 
     if(isSolved == FALSE) {
         freeFormula(formula);
@@ -32,8 +25,6 @@ int solveSat(formula_t* formula, char* path) {
         return UNSAT;
     } else if(undefinedIndex != 0) {
         int unitClauseIndex = isUnitClause(formula->clause, formula->values);
-
-        printf("Unit clause index = %d\n", unitClauseIndex);
 
         if (unitClauseIndex != 0) {
             formula_t* newFormula = createFormula(formula->clause);
@@ -50,8 +41,6 @@ int solveSat(formula_t* formula, char* path) {
             cloneValues(newFormulaPos->values, formula->values);
             newFormulaPos->values[abs(undefinedIndex) - 1] = TRUE;
 
-            printf("branching pos\n");
-
             if(solveSat(newFormulaPos, path) != SAT) {
                 formula_t* newFormulaNeg = createFormula(formula->clause);
 
@@ -59,8 +48,6 @@ int solveSat(formula_t* formula, char* path) {
                 newFormulaNeg->values[abs(undefinedIndex) - 1] = FALSE;
 
                 freeFormula(formula);
-
-                printf("branching neg\n");
 
                 return solveSat(newFormulaNeg, path);
             } else {

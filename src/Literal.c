@@ -53,26 +53,6 @@ int containsIndex(literal_t* root, int index) {
     return 0;
 }
 
-literal_t* cloneLiteral(literal_t* literal) {
-    literal_t* clone = createLiteral(),
-               *iterator = literal;
-
-    while(iterator != NULL) {
-        if(clone->index == 0)
-            clone->index = iterator->index;
-        else {
-            literal_t* newClone = createLiteral();
-
-            newClone->index = iterator->index;
-            addLiteralNext(clone, newClone);
-        }
-
-        iterator = iterator->next;
-    }
-
-    return clone;
-}
-
 void freeLiteral(literal_t* literal) {
     if(literal != NULL) {
         if(literal->next != NULL)

@@ -30,18 +30,6 @@ formula_t* getLastFormula(formula_t* root) {
     return NULL;
 }
 
-int getFormulaSize(formula_t* root) {
-    formula_t* iterator = root;
-    int counter = 0;
-
-    while(iterator != NULL) {
-        counter++;
-        iterator = iterator->next;
-    }
-
-    return counter;
-}
-
 void freeFormula(formula_t* formula) {
     if(formula != NULL) {
         if(formula->next != NULL)

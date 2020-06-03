@@ -53,7 +53,7 @@ clause_t* readClauseInput(char* path, int* n, int* m) {
     return input;
 }
 
-void printClause(clause_t* root) {
+/*void printClause(clause_t* root) {
     clause_t* clauseIterator = root;
 
     while(clauseIterator != NULL) {
@@ -79,32 +79,39 @@ void printClause(clause_t* root) {
     }
 
     printf("\n");
-}
+}*/
 
 void printLiteral(literal_t* root, char* path) {
     literal_t* iterator = root;
+    int* array = malloc(n * sizeof(int));
     FILE* file = fopen(path, "w");
 
+    for(int i = 0; i < n; i++)
+        array[i] = 0;
+
     while(iterator != NULL) {
-        fprintf(stderr, "%d ", iterator->index);
-        fprintf(file, "%d ", iterator->index);
+        array[abs(iterator->index) - 1] = iterator->index;
 
         iterator = iterator->next;
     }
 
-    fprintf(stderr, "0\n");
+    for(int i = 0; i < n; i++)
+        if(array[i] != 0)
+            fprintf(file, "%d ", array[i]);
+
     fprintf(file, "0\n");
+    free(array);
     fclose(file);
 }
 
-void printValues(int* values) {
+/*void printValues(int* values) {
     printf("Values: ");
 
     for(int i = 0; i < n; i++)
         printf("%d ", values[i]);
 
     printf("\n");
-}
+}*/
 
 void printSolution(int* values, char* path) {
     FILE* file = fopen(path, "w");

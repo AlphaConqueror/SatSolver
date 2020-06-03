@@ -10,8 +10,6 @@
 int main(int argc, char *argv[]) {
     clause_t* input = readClauseInput(argv[1], &n, &m);
 
-    printClause(input);
-
     if(argc == 3) {
         formula_t* formula = createFormula(input);
         int isSolved = solveSat(formula, argv[2]);

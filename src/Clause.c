@@ -38,26 +38,6 @@ void addClauseNext(clause_t* root, clause_t* next) {
     }
 }
 
-clause_t* cloneClause(clause_t* clause) {
-    clause_t* clone = createClause(),
-              *iterator = clause;
-
-    while(iterator != NULL) {
-        if(clone->head == NULL)
-            clone->head = cloneLiteral(iterator->head);
-        else {
-            clause_t* newClone = createClause();
-
-            newClone->head = cloneLiteral(iterator->head);
-            addClauseNext(clone, newClone);
-        }
-
-        iterator = iterator->next;
-    }
-
-    return clone;
-}
-
 void freeClause(clause_t* clause) {
     if(clause != NULL) {
         if(clause->head != NULL)
