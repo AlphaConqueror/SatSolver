@@ -53,6 +53,26 @@ int containsIndex(literal_t* root, int index) {
     return 0;
 }
 
+literal_t* cloneLiteral(literal_t* root) {
+    literal_t* iterator = root,
+               *clone = createLiteral();
+
+    while(iterator != NULL) {
+        if(clone->index == 0)
+            clone->index = iterator->index;
+        else {
+            literal_t* newClone = createLiteral();
+
+            newClone->index = iterator->index;
+            addLiteralNext(clone, newClone);
+        }
+
+        iterator = iterator->next;
+    }
+
+    return clone;
+}
+
 void freeLiteral(literal_t* literal) {
     if(literal != NULL) {
         if(literal->next != NULL)
@@ -147,14 +167,14 @@ int getNextPureLiteral(clause_t* root, int* values) {
               *clause = createClause();
 
     while(iterator != NULL) {
-        if(iterator->head != NULL)
-            if(checkLiteral(iterator->head, values) == UNDEFINED) {
-                if(clause->head == NULL)
-                    clause->head = iterator->head;
+        if (iterator->head != NULL)
+            if (checkLiteral(iterator->head, values) == UNDEFINED) {
+                if (clause->head == NULL)
+                    clause->head = cloneLiteral(iterator->head);
                 else {
-                    clause_t* newClause = createClause();
+                    clause_t *newClause = createClause();
 
-                    newClause->head = iterator->head;
+                    newClause->head = cloneLiteral(iterator->head);
                     addClauseNext(clause, newClause);
                 }
             }
@@ -162,8 +182,19 @@ int getNextPureLiteral(clause_t* root, int* values) {
         iterator = iterator->next;
     }
 
-    int index = getPureLiterals(clause)->index;
+    literal_t* pureLiterals = getPureLiterals(clause);
+    literal_t* literalIterator = pureLiterals;
 
+    while(literalIterator != NULL) {
+        if(literalIterator->index != 0 && values[abs(literalIterator->index) - 1] == UNDEFINED)
+            break;
+
+        literalIterator = literalIterator->next;
+    }
+
+    int index = literalIterator == NULL ? 0 : literalIterator->index;
+
+    freeLiteral(pureLiterals);
     freeClause(clause);
 
     return index;

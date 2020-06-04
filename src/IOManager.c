@@ -121,8 +121,10 @@ void printSolution(int* values, char* path) {
     for(int i = 0; i < n; i++) {
         fprintf(file, "%s%d", values[i] == FALSE ? "-" : "", i+1);
 
-        if(i < n - 1)
+        if(i < n - 1) {
             fprintf(file, " ");
+            printf(" ");
+        }
     }
 
     fprintf(file, "\n");
