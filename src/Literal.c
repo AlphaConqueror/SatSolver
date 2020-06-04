@@ -142,6 +142,33 @@ literal_t* getPureLiterals(clause_t* root) {
     return pureLiterals;
 }
 
+int getNextPureLiteral(clause_t* root, int* values) {
+    clause_t* iterator = root,
+              *clause = createClause();
+
+    while(iterator != NULL) {
+        if(iterator->head != NULL)
+            if(checkLiteral(iterator->head, values) == UNDEFINED) {
+                if(clause->head == NULL)
+                    clause->head = iterator->head;
+                else {
+                    clause_t* newClause = createClause();
+
+                    newClause->head = iterator->head;
+                    addClauseNext(clause, newClause);
+                }
+            }
+
+        iterator = iterator->next;
+    }
+
+    int index = getPureLiterals(clause)->index;
+
+    freeClause(clause);
+
+    return index;
+}
+
 void cloneValues(int* values, int* initValues) {
     for(int i = 0; i < n; i++) {
         values[i] = initValues[i];

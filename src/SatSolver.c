@@ -38,11 +38,7 @@ int solveSat(formula_t* formula, char* path, int ple) {
         }
 
         if(ple == 1) {
-            literal_t* pureLiterals = getPureLiterals(formula->clause);
-
-            int index = pureLiterals->index;
-
-            freeLiteral(pureLiterals);
+            int index = getNextPureLiteral(formula->clause, formula->values);
 
             if(index != 0) {
                 formula_t* newFormula = createFormula(formula->clause);

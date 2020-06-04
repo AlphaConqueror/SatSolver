@@ -19,4 +19,5 @@ int getValue(literal_t* literal, int* values);
 int checkLiteral(literal_t* root, int* values);
 literal_t* getLiterals(struct clause_t* root);
 literal_t* getPureLiterals(struct clause_t* root);
+int getNextPureLiteral(clause_t* root, int* values);
 void cloneValues(int* values, int* initValues);

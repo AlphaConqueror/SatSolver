@@ -51,7 +51,6 @@ void freeClause(clause_t* clause) {
 //return literal index if undefined
 int isUndefined(clause_t* clause, int* values) {
     literal_t* iterator = clause->head;
-    int bool = FALSE;
     int undefinedIndex = 0;
 
     while (iterator != NULL) {
@@ -68,41 +67,45 @@ int isUndefined(clause_t* clause, int* values) {
         iterator = iterator->next;
     }
 
-    return (bool == FALSE && undefinedIndex != 0) ? undefinedIndex : 0;
+    return undefinedIndex != 0 ? undefinedIndex : 0;
 }
 
 //returns literal index if true, 0 if false
 int isUnitClause(clause_t* root, int* values) {
     clause_t* clauseIterator = root;
-    int index = 0;
 
     while(clauseIterator != NULL) {
-        if (clauseIterator != NULL && clauseIterator->head != NULL) {
+        if (clauseIterator->head != NULL) {
             literal_t* literalIterator = clauseIterator->head;
+            int index = 0;
 
             while (literalIterator != NULL) {
                 int value = getValue(literalIterator, values);
 
-                if (value == TRUE)
-                    return 0;
+                if (value == TRUE) {
+                    index = 0;
+                    break;
+                }
                 if (value == UNDEFINED) {
                     if (index == 0 || index == literalIterator->index)
                         index = literalIterator->index;
-                    else
-                        return 0;
+                    else {
+                        index = 0;
+                        break;
+                    }
                 }
 
                 literalIterator = literalIterator->next;
             }
-        }
 
-        if(index != 0)
-            return index;
+            if(index != 0)
+                return index;
+        }
 
         clauseIterator = clauseIterator->next;
     }
 
-    return index;
+    return 0;
 }
 
 int checkClause(clause_t* root, int* values) {
